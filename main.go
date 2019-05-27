@@ -1,6 +1,12 @@
+/*
+ * DVDTS - DVD like screensaver for term
+ * Github repo: https://github.com/ameyrk99/dvdts
+ */
+
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -16,8 +22,11 @@ var (
 	termWidth  = 0
 	termHeight = 0
 
-	px          = 1
-	py          = 1
+	/* Top left co-ordinates of the text */
+	px = 1
+	py = 1
+
+	/* Text size */
 	pTextLength = 0
 
 	xAdd = true
@@ -25,16 +34,23 @@ var (
 )
 
 func main() {
+
+	/* Get text color */
+	textColor := getTextColor()
+
+	/* Initialize termui */
 	if err := ui.Init(); err != nil {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
 	defer ui.Close()
 
+	/* Get OS/distro name */
 	osName := getOsName()
 
+	/* Make the text widget */
 	p := widgets.NewParagraph()
 	p.Border = false
-	p.Text = fmt.Sprintf("[%s](fg:blue,mod:bold)", osName)
+	p.Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, textColor)
 	pTextLength = len(osName)
 	termWidth, termHeight = ui.TerminalDimensions()
 	drawFunction(&p)
@@ -55,6 +71,24 @@ func main() {
 			ui.Render(p)
 		}
 	}
+}
+
+func getTextColor() string {
+	textColor := flag.String("c", "blue", "color for the bouncing text")
+	flag.Parse()
+
+	colors := []string{"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"}
+
+	for _, c := range colors {
+		if *textColor == c {
+			return *textColor
+		}
+	}
+
+	fmt.Printf("Colors available:\n%s\n", strings.Join(colors, " "))
+	os.Exit(1)
+
+	return "blue"
 }
 
 func getOsName() (osName string) {
