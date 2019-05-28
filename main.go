@@ -76,13 +76,18 @@ func main() {
 	ui.Render(p)
 
 	uiEvents := ui.PollEvents()
+	/* ticker to update the position/color of the text after fixed interval */
 	ticker := time.NewTicker(time.Duration(*textSpeed) * 10 * time.Millisecond).C
 	for {
 		select {
 		case e := <-uiEvents:
 			switch e.ID {
 			case "q", "<C-c>":
+				/* Quit the program on q or Ctrl+c */
 				return
+			case "a":
+				/* Switch all colors on/off in the program */
+				allColors = !allColors
 			}
 		case <-ticker:
 			drawText(&p)
@@ -91,6 +96,7 @@ func main() {
 	}
 }
 
+/* Get the name of OS/Distro to display as text */
 func getOsName() (osName string) {
 	out, err := exec.Command("lsb_release", "-a").Output()
 	if err != nil {
@@ -104,6 +110,7 @@ func getOsName() (osName string) {
 	return strings.Split(osStrings[2], "\t")[1]
 }
 
+/* Get starting/only text color from user on use of c flag */
 func getTextColor(textColor *string) string {
 	for i, c := range colors {
 		if *textColor == c {
@@ -118,18 +125,22 @@ func getTextColor(textColor *string) string {
 	return "blue"
 }
 
+/* Update the color of text when it hits the corner if all colors is used */
 func updateTextColor(p **widgets.Paragraph) {
 	colorsPos++
 	(*p).Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, colors[colorsPos])
 
+	/* If the last we're at the last element in the list, begin from start */
 	if colorsPos == len(colors)-1 {
 		colorsPos = 0
 	}
 }
 
+/* Draw the text on termui */
 func drawText(p **widgets.Paragraph) {
 	updateColor := false
 
+	/* Did text hit the bottom or top of the term? */
 	if py == termHeight-2 {
 		yAdd = false
 		updateColor = true
@@ -138,6 +149,7 @@ func drawText(p **widgets.Paragraph) {
 		updateColor = true
 	}
 
+	/* Did the text hit the right or left of term? */
 	if px == termWidth-pTextLength-2 {
 		xAdd = false
 		updateColor = true
@@ -146,6 +158,7 @@ func drawText(p **widgets.Paragraph) {
 		updateColor = true
 	}
 
+	/* Update color on hit and when all a flag is used */
 	if updateColor && allColors {
 		updateTextColor(p)
 	}
