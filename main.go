@@ -35,8 +35,14 @@ var (
 
 func main() {
 
+	tempTextColor := flag.String("c", "blue", "color for the bouncing text")
+
+	/* Get text speed */
+	textSpeed := flag.Int("s", 10, "speed of text [more is slower]")
+	flag.Parse()
+
 	/* Get text color */
-	textColor := getTextColor()
+	textColor := getTextColor(tempTextColor)
 
 	/* Initialize termui */
 	if err := ui.Init(); err != nil {
@@ -58,7 +64,7 @@ func main() {
 	ui.Render(p)
 
 	uiEvents := ui.PollEvents()
-	ticker := time.NewTicker(100 * time.Millisecond).C
+	ticker := time.NewTicker(time.Duration(*textSpeed) * 10 * time.Millisecond).C
 	for {
 		select {
 		case e := <-uiEvents:
@@ -73,10 +79,7 @@ func main() {
 	}
 }
 
-func getTextColor() string {
-	textColor := flag.String("c", "blue", "color for the bouncing text")
-	flag.Parse()
-
+func getTextColor(textColor *string) string {
 	colors := []string{"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"}
 
 	for _, c := range colors {
@@ -105,7 +108,7 @@ func getOsName() (osName string) {
 }
 
 func drawFunction(p **widgets.Paragraph) {
-	if py == termHeight-1 {
+	if py == termHeight-2 {
 		yAdd = false
 	} else if py == 0 {
 		yAdd = true
