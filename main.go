@@ -31,14 +31,26 @@ var (
 
 	xAdd = true
 	yAdd = true
+
+	colors    = []string{"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"}
+	colorsPos = 0
+
+	osName = "Linux"
+
+	allColors = true
 )
 
 func main() {
 
+	/* Get custom text color */
 	tempTextColor := flag.String("c", "blue", "color for the bouncing text")
 
 	/* Get text speed */
 	textSpeed := flag.Int("s", 10, "speed of text [more is slower]")
+
+	/* Get whether to cycle through colors */
+	flag.BoolVar(&allColors, "a", false, "cycle through terminal colors")
+
 	flag.Parse()
 
 	/* Get text color */
@@ -51,7 +63,7 @@ func main() {
 	defer ui.Close()
 
 	/* Get OS/distro name */
-	osName := getOsName()
+	osName = getOsName()
 
 	/* Make the text widget */
 	p := widgets.NewParagraph()
@@ -59,7 +71,7 @@ func main() {
 	p.Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, textColor)
 	pTextLength = len(osName)
 	termWidth, termHeight = ui.TerminalDimensions()
-	drawFunction(&p)
+	drawText(&p)
 
 	ui.Render(p)
 
@@ -73,25 +85,10 @@ func main() {
 				return
 			}
 		case <-ticker:
-			drawFunction(&p)
+			drawText(&p)
 			ui.Render(p)
 		}
 	}
-}
-
-func getTextColor(textColor *string) string {
-	colors := []string{"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"}
-
-	for _, c := range colors {
-		if *textColor == c {
-			return *textColor
-		}
-	}
-
-	fmt.Printf("Colors available:\n%s\n", strings.Join(colors, " "))
-	os.Exit(1)
-
-	return "blue"
 }
 
 func getOsName() (osName string) {
@@ -107,17 +104,50 @@ func getOsName() (osName string) {
 	return strings.Split(osStrings[2], "\t")[1]
 }
 
-func drawFunction(p **widgets.Paragraph) {
+func getTextColor(textColor *string) string {
+	for i, c := range colors {
+		if *textColor == c {
+			colorsPos = i
+			return *textColor
+		}
+	}
+
+	fmt.Printf("Colors available:\n%s\n", strings.Join(colors, " "))
+	os.Exit(1)
+
+	return "blue"
+}
+
+func updateTextColor(p **widgets.Paragraph) {
+	colorsPos++
+	(*p).Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, colors[colorsPos])
+
+	if colorsPos == len(colors)-1 {
+		colorsPos = 0
+	}
+}
+
+func drawText(p **widgets.Paragraph) {
+	updateColor := false
+
 	if py == termHeight-2 {
 		yAdd = false
+		updateColor = true
 	} else if py == 0 {
 		yAdd = true
+		updateColor = true
 	}
 
 	if px == termWidth-pTextLength-2 {
 		xAdd = false
+		updateColor = true
 	} else if px == 0 {
 		xAdd = true
+		updateColor = true
+	}
+
+	if updateColor && allColors {
+		updateTextColor(p)
 	}
 
 	if yAdd {
