@@ -1,7 +1,7 @@
 # DVDTS - DVD Term Screensaver
 
 DVD Screensaver style screensaver for terminal.
-Instead of the logo of DVD, it uses the distro name/os name.
+Instead of the logo of DVD, it uses the distro name/os name or custom text.
 
 ## Preview
 
