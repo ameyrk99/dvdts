@@ -2,9 +2,24 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 
 	"github.com/gizak/termui/widgets"
 )
+
+/* Generate random initial coordinates for the text */
+func generateRandomCoords() (xCoord, yCoord int) {
+	rand.Seed(int64(time.Now().Nanosecond()))
+	min := 1
+	max := termHeight - 3
+	yCoord = rand.Intn(max-min) + min
+
+	max = termWidth - pTextLength - 3
+	xCoord = rand.Intn(max-min) + min
+
+	return xCoord, yCoord
+}
 
 /* Update the color of text when it hits the corner if all colors is used */
 func updateTextColor(p **widgets.Paragraph) {

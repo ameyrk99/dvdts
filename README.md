@@ -7,9 +7,11 @@ Instead of the logo of DVD, it uses the distro name/os name or custom text.
 
 ![preview gif](readme_assets/dvdts.gif)
 
-The preview shows use with color cyclying enabled and one with single color.<br><br>
+The preview shows one use with color cyclying enabled and one with single color.<br><br>
 
-if the gif is laggy, see [video](readme_assets/dvdts.mp4)
+Preview shows one with custom text and color cycling enabled, and the default run.
+
+If the gif is laggy, see [video](readme_assets/dvdts.mp4)
 
 ## Usage
 
@@ -36,7 +38,7 @@ This will start the colors from green, cycle because of `a` flag, and text will 
 |q or Ctrl+c|Quit      |
 |a|Toggle color cycling|
 
-## Dependencies:
+## Build Dependencies:
 - [Go](https://golang.org/)
 - [termui](https://github.com/gizak/termui)
 

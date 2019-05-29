@@ -85,6 +85,7 @@ func main() {
 	pTextLength = len(osName)
 
 	termWidth, termHeight = ui.TerminalDimensions()
+	px, py = generateRandomCoords()
 	drawText(&p)
 
 	ui.Render(p)
