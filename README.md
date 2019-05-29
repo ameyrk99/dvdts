@@ -1,7 +1,9 @@
 # DVDTS - DVD Term Screensaver
 
 DVD Screensaver style screensaver for terminal.
-Instead of the logo of DVD, it uses the distro name/os name or custom text.
+Instead of the logo of DVD, it uses the distro name/os name or custom text.<br>
+
+The text does not hit the corner of terminal perfectly only if GCD (greatest common divisor) for terminal dimensions isn't 1 (Otherwise mathematically not possible for it to not hit it eventually).
 
 ## Preview
 
@@ -38,7 +40,7 @@ This will start the colors from green, cycle because of `a` flag, and text will 
 |q or Ctrl+c|Quit      |
 |a|Toggle color cycling|
 
-## Build Dependencies:
+## Build Dependencies
 - [Go](https://golang.org/)
 - [termui](https://github.com/gizak/termui)
 

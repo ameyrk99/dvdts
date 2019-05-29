@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"strings"
 	"time"
 
@@ -16,9 +17,15 @@ import (
 	"github.com/gizak/termui/widgets"
 )
 
+const (
+	termOffset = 2
+)
+
 var (
 	termWidth  = 0
 	termHeight = 0
+	xEdge      = 0
+	yEdge      = 0
 
 	/* Top left co-ordinates of the text */
 	px = 1
@@ -85,7 +92,28 @@ func main() {
 	pTextLength = len(osName)
 
 	termWidth, termHeight = ui.TerminalDimensions()
+	/* Top left doesn't go all the way to the end of terminal due to text wrap, hence new edges */
+	xEdge = termWidth - pTextLength - termOffset
+	yEdge = termHeight - termOffset
+
 	px, py = generateRandomCoords()
+
+	gcd := float64(getGCD(xEdge, yEdge))
+
+	/* Start loop only if GCD for terminal dimensions isn't 1.0 */
+	if gcd != 1.0 {
+		for {
+			/* The below condition needs to be met for thing to hit the corner */
+			/* Math from http://prgreen.github.io/blog/2013/09/30/the-bouncing-dvd-logo-explained/ */
+			if math.Mod(math.Abs(float64(px-py)), gcd) == 0 {
+				/* If it is met, recalculate starting coordinates */
+				px, py = generateRandomCoords()
+			} else {
+				break
+			}
+		}
+	}
+
 	drawText(&p)
 
 	ui.Render(p)

@@ -37,7 +37,7 @@ func drawText(p **widgets.Paragraph) {
 	updateColor := false
 
 	/* Did text hit the bottom or top of the term? */
-	if py == termHeight-2 {
+	if py == yEdge {
 		yAdd = false
 		updateColor = true
 	} else if py == 0 {
@@ -46,7 +46,7 @@ func drawText(p **widgets.Paragraph) {
 	}
 
 	/* Did the text hit the right or left of term? */
-	if px == termWidth-pTextLength-2 {
+	if px == xEdge {
 		xAdd = false
 		updateColor = true
 	} else if px == 0 {
