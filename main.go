@@ -54,7 +54,7 @@ func main() {
 	flag.BoolVar(&allColors, "a", false, "cycle through terminal colors")
 
 	/* Get OS/distro name */
-	flag.StringVar(&osName, "t", getOsName(), "text to display")
+	flag.StringVar(&osName, "t", getOsName(), "custom text to display")
 
 	flag.Parse()
 

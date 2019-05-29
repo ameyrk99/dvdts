@@ -23,9 +23,11 @@ This will start the colors from green, cycle because of `a` flag, and text will 
 ```
 -a      cycle through terminal colors
 -c string
-        starting/only color for the bouncing text (default "blue")
+        color for the bouncing text (default "blue")
 -s int
         speed of text [more is slower] (default 10)
+-t string
+        text to display (default <distro name>)
 ```
 
 ### In use bindings
@@ -35,15 +37,10 @@ This will start the colors from green, cycle because of `a` flag, and text will 
 |a|Toggle color cycling|
 
 ## Dependencies:
-- to compile: [Go](https://golang.org/)
-- `lsb_release`
+- [Go](https://golang.org/)
+- [termui](https://github.com/gizak/termui)
 
-## Build
+## Install
 ```
-go build
-
-./dvdts
+go install
 ```
-
-## Uses
-[termui](https://github.com/gizak/termui)
