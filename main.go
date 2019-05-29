@@ -9,8 +9,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
-	"os/exec"
 	"strings"
 	"time"
 
@@ -33,43 +31,59 @@ var (
 	yAdd = true
 
 	colors    = []string{"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"}
-	colorsPos = 0
+	colorsPos = -1
 
-	osName = "Linux"
+	osName string
 
 	allColors = true
+
+	textSpeed int
+	textColor string
 )
 
 func main() {
+	log.SetPrefix("")
 
 	/* Get custom text color */
-	tempTextColor := flag.String("c", "blue", "color for the bouncing text")
+	flag.StringVar(&textColor, "c", "blue", "color for the bouncing text")
 
 	/* Get text speed */
-	textSpeed := flag.Int("s", 10, "speed of text [more is slower]")
+	flag.IntVar(&textSpeed, "s", 10, "speed of text [more is slower]")
 
 	/* Get whether to cycle through colors */
 	flag.BoolVar(&allColors, "a", false, "cycle through terminal colors")
 
+	/* Get OS/distro name */
+	flag.StringVar(&osName, "t", getOsName(), "text to display")
+
 	flag.Parse()
 
 	/* Get text color */
-	textColor := getTextColor(tempTextColor)
+	for i, c := range colors {
+		if textColor == c {
+			colorsPos = i
+			break
+		}
+	}
+
+	if colorsPos == -1 {
+		log.Fatalf("Colors available:\n%s\n", strings.Join(colors, " "))
+	}
 
 	/* Initialize termui */
 	if err := ui.Init(); err != nil {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
-	defer ui.Close()
 
-	/* Get OS/distro name */
-	osName = getOsName()
+	defer ui.Close()
 
 	/* Make the text widget */
 	p := widgets.NewParagraph()
 	p.Border = false
 	p.Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, textColor)
+
 	pTextLength = len(osName)
+
 	termWidth, termHeight = ui.TerminalDimensions()
 	drawText(&p)
 
@@ -77,7 +91,8 @@ func main() {
 
 	uiEvents := ui.PollEvents()
 	/* ticker to update the position/color of the text after fixed interval */
-	ticker := time.NewTicker(time.Duration(*textSpeed) * 10 * time.Millisecond).C
+	ticker := time.NewTicker(time.Duration(textSpeed) * 10 * time.Millisecond).C
+
 	for {
 		select {
 		case e := <-uiEvents:
@@ -89,38 +104,10 @@ func main() {
 				/* Switch all colors on/off in the program */
 				allColors = !allColors
 			}
+
 		case <-ticker:
 			drawText(&p)
 			ui.Render(p)
 		}
 	}
-}
-
-/* Get the name of OS/Distro to display as text */
-func getOsName() (osName string) {
-	out, err := exec.Command("lsb_release", "-a").Output()
-	if err != nil {
-		fmt.Println("Error getting distro name:", err)
-		os.Exit(1)
-	}
-
-	osInfo := fmt.Sprintf("%s", out)
-	osStrings := strings.Split(osInfo, "\n")
-
-	return strings.Split(osStrings[2], "\t")[1]
-}
-
-/* Get starting/only text color from user on use of c flag */
-func getTextColor(textColor *string) string {
-	for i, c := range colors {
-		if *textColor == c {
-			colorsPos = i
-			return *textColor
-		}
-	}
-
-	fmt.Printf("Colors available:\n%s\n", strings.Join(colors, " "))
-	os.Exit(1)
-
-	return "blue"
 }
