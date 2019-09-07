@@ -9,11 +9,11 @@ The text does not hit the corner of terminal perfectly only if GCD (greatest com
 
 ![preview gif](readme_assets/dvdts.gif)
 
+__The gif is laggy__; see [video.mp4](readme_assets/dvdts.mp4)
+
 The preview shows one use with color cyclying enabled and one with single color.<br><br>
 
 Preview shows one with custom text and color cycling enabled, and the default run.
-
-If the gif is laggy, see [video](readme_assets/dvdts.mp4)
 
 ## Usage
 
@@ -44,7 +44,3 @@ This will start the colors from green, cycle because of `a` flag, and text will 
 - [Go](https://golang.org/)
 - [termui](https://github.com/gizak/termui)
 
-## Install
-```
-go install
-```

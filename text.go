@@ -70,5 +70,6 @@ func drawText(p **widgets.Paragraph) {
 	} else {
 		px--
 	}
+
 	(*p).SetRect(px, py, termWidth, termHeight)
 }
