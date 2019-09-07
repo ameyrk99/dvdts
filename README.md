@@ -11,8 +11,6 @@ The text does not hit the corner of terminal perfectly only if GCD (greatest com
 
 __The gif is laggy__; see [video.mp4](readme_assets/dvdts.mp4)
 
-The preview shows one use with color cyclying enabled and one with single color.<br><br>
-
 Preview shows one with custom text and color cycling enabled, and the default run.
 
 ## Usage
