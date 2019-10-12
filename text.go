@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/gizak/termui/widgets"
+	"github.com/gizak/termui/v3/widgets"
 )
 
 /* Generate random initial coordinates for the text */
