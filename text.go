@@ -12,7 +12,7 @@ import (
 func generateRandomCoords() (xCoord, yCoord int) {
 	rand.Seed(int64(time.Now().Nanosecond()))
 	min := 1
-	max := termHeight - 3
+	max := termHeight - pTextHeight - 3
 	yCoord = rand.Intn(max-min) + min
 
 	max = termWidth - pTextLength - 3
