@@ -92,9 +92,19 @@ func main() {
 	pTextLength = len(osName)
 
 	termWidth, termHeight = ui.TerminalDimensions()
+
+	/* Respect multiline string */
+	var lines = strings.Split(osName, "\n")
+	var longest = 0;
+	for _, line := range lines {
+		if len(line) > longest {
+			longest = len(line)
+		}
+	}
+
 	/* Top left doesn't go all the way to the end of terminal due to text wrap, hence new edges */
-	xEdge = termWidth - pTextLength - termOffset
-	yEdge = termHeight - termOffset
+	xEdge = termWidth - longest - termOffset
+	yEdge = termHeight - len(lines) - termOffset
 
 	px, py = generateRandomCoords()
 
