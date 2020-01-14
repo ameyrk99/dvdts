@@ -3,15 +3,15 @@
 DVD Screensaver style screensaver for terminal.
 Instead of the logo of DVD, it uses the distro name/os name or custom text.<br>
 
-The text does not hit the corner of terminal perfectly only if GCD (greatest common divisor) for terminal dimensions isn't 1 (Otherwise mathematically not possible for it to not hit it eventually).
+The text does not hit the corner of terminal perfectly only if GCD (greatest common divisor) for terminal dimensions isn't 1.
 
 ## Preview
 
-![preview gif](readme_assets/dvdts.gif)
-
-__The gif is laggy__; see [video.mp4](readme_assets/dvdts.mp4)
+__The gif is laggy__; see [video](https://raw.githubusercontent.com/ameyrk99/dvdts/master/readme_assets/dvdts.mp4)
 
 Preview shows one with custom text and color cycling enabled, and the default run.
+
+![preview gif](readme_assets/dvdts.gif)
 
 ## Usage
 
@@ -32,7 +32,7 @@ This will start the colors from green, cycle because of `a` flag, and text will 
         text to display (default <distro name>)
 ```
 
-### In use bindings
+### In-use bindings
 |Key(s)     |Action    |
 |-----------|----------|
 |q or Ctrl+c|Quit      |
