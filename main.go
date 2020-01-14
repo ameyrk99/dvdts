@@ -33,6 +33,7 @@ var (
 
 	/* Text size */
 	pTextLength = 0
+	pTextHeight = 0
 
 	xAdd = true
 	yAdd = true
@@ -89,12 +90,20 @@ func main() {
 	p.Border = false
 	p.Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, textColor)
 
-	pTextLength = len(osName)
-
 	termWidth, termHeight = ui.TerminalDimensions()
+
+	/* Respect multiline string */
+	var lines = strings.Split(osName, "\n")
+	for _, line := range lines {
+		if len(line) > pTextLength {
+			pTextLength = len(line)
+		}
+	}
+	pTextHeight = len(lines)
+
 	/* Top left doesn't go all the way to the end of terminal due to text wrap, hence new edges */
 	xEdge = termWidth - pTextLength - termOffset
-	yEdge = termHeight - termOffset
+	yEdge = termHeight - pTextHeight - termOffset
 
 	px, py = generateRandomCoords()
 
