@@ -7,9 +7,12 @@ The text does not hit the corner of terminal perfectly only if GCD (greatest com
 
 ## Preview
 
-__The gif is laggy__; see [video](https://raw.githubusercontent.com/ameyrk99/dvdts/master/readme_assets/dvdts.mp4)
-
-Preview shows one with custom text and color cycling enabled, and the default run.
+Preview shows
+```
+dvdts -c yellow -t "Hello, World" -s 7
+# and 
+cowsay Hello, World | dvdts -a
+```
 
 ![preview gif](readme_assets/dvdts.gif)
 
@@ -29,7 +32,7 @@ This will start the colors from green, cycle because of `a` flag, and text will 
 -s int
         speed of text [more is slower] (default 10)
 -t string
-        text to display (default <distro name>)
+        text to display (default "<OS name>")
 ```
 
 ### Piping input

@@ -62,9 +62,12 @@ func main() {
 	flag.BoolVar(&allColors, "a", false, "cycle through terminal colors")
 
 	/* Get OS/distro name */
-	flag.StringVar(&displayText, "t", getDisplayText(), "custom text to display")
+	flag.StringVar(&displayText, "t", "<OS name>", "custom text to display")
 
 	flag.Parse()
+
+	/* Not in flag StringVar func incase input was piped */
+	displayText = getDisplayText()
 
 	/* Get text color */
 	for i, c := range colors {
