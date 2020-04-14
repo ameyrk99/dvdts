@@ -41,7 +41,7 @@ var (
 	colors    = []string{"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"}
 	colorsPos = -1
 
-	osName string
+	displayText string
 
 	allColors = true
 
@@ -62,7 +62,7 @@ func main() {
 	flag.BoolVar(&allColors, "a", false, "cycle through terminal colors")
 
 	/* Get OS/distro name */
-	flag.StringVar(&osName, "t", getOsName(), "custom text to display")
+	flag.StringVar(&displayText, "t", getDisplayText(), "custom text to display")
 
 	flag.Parse()
 
@@ -88,12 +88,12 @@ func main() {
 	/* Make the text widget */
 	p := widgets.NewParagraph()
 	p.Border = false
-	p.Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, textColor)
+	p.Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", displayText, textColor)
 
 	termWidth, termHeight = ui.TerminalDimensions()
 
 	/* Respect multiline string */
-	var lines = strings.Split(osName, "\n")
+	var lines = strings.Split(displayText, "\n")
 	for _, line := range lines {
 		if len(line) > pTextLength {
 			pTextLength = len(line)

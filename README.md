@@ -32,6 +32,12 @@ This will start the colors from green, cycle because of `a` flag, and text will 
         text to display (default <distro name>)
 ```
 
+### Piping input
+DVDTS supports piped input. For example
+```
+cowsay Hello, World | dvdts -a
+```
+
 ### In-use bindings
 |Key(s)     |Action    |
 |-----------|----------|

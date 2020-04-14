@@ -24,7 +24,7 @@ func generateRandomCoords() (xCoord, yCoord int) {
 /* Update the color of text when it hits the corner if all colors is used */
 func updateTextColor(p **widgets.Paragraph) {
 	colorsPos++
-	(*p).Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", osName, colors[colorsPos])
+	(*p).Text = fmt.Sprintf("[%s](fg:%s,mod:bold)", displayText, colors[colorsPos])
 
 	/* If the last we're at the last element in the list, begin from start */
 	if colorsPos == len(colors)-1 {

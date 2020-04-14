@@ -2,12 +2,22 @@ package main
 
 import (
 	"io/ioutil"
+	"os"
 	"runtime"
 	"strings"
 )
 
-/* Get the name of OS/Distro to display as text */
-func getOsName() (osName string) {
+/* Get the name of OS/Distro or piped input */
+func getDisplayText() (displayText string) {
+
+	/* Check for piped input */
+	fi, _ := os.Stdin.Stat()
+	if (fi.Mode() & os.ModeCharDevice) == 0 {
+		bytes, _ := ioutil.ReadAll(os.Stdin)
+		return string(bytes)
+	}
+
+	/* In case of no piped input, get OS name */
 	f, err := ioutil.ReadFile("/etc/os-release")
 	if err != nil {
 		return strings.Title(runtime.GOOS)
