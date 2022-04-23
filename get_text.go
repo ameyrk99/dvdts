@@ -20,7 +20,7 @@ func getDisplayText() (displayText string) {
 	/* In case of no piped input, get OS name */
 	f, err := ioutil.ReadFile("/etc/os-release")
 	if err != nil {
-		return strings.Title(runtime.GOOS)
+		return strings.ToTitle(runtime.GOOS)
 	}
 
 	osRelease := make(map[string]string)
@@ -42,5 +42,5 @@ func getDisplayText() (displayText string) {
 		return v
 	}
 
-	return strings.Title(runtime.GOOS)
+	return strings.ToTitle(runtime.GOOS)
 }
