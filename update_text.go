@@ -3,14 +3,12 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
 
 	"github.com/gizak/termui/v3/widgets"
 )
 
 /* Generate random initial coordinates for the text */
 func generateRandomCoords() (xCoord, yCoord int) {
-	rand.Seed(int64(time.Now().Nanosecond()))
 	min := 1
 	max := termHeight - pTextHeight - 3
 	yCoord = rand.Intn(max-min) + min

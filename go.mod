@@ -1,6 +1,6 @@
 module github.com/ameyrk99/dvdts
 
-go 1.18
+go 1.21
 
 require github.com/gizak/termui/v3 v3.1.0
 
