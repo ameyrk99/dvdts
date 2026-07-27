@@ -12,6 +12,7 @@ import (
 	"math"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
@@ -100,8 +101,8 @@ func main() {
 	/* Respect multiline string */
 	var lines = strings.Split(displayText, "\n")
 	for _, line := range lines {
-		if len(line) > pTextLength {
-			pTextLength = len(line)
+		if utf8.RuneCountInString(line) > pTextLength {
+			pTextLength = utf8.RuneCountInString(line)
 		}
 	}
 	pTextHeight = len(lines)
